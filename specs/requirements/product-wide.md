@@ -9,3 +9,4 @@ Rules that apply to more than one feature.
 ## Decisions
 
 - Users sign in via single sign-on. \[org default\]
+
