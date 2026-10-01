@@ -5,7 +5,7 @@
 Employees pay for business costs out of pocket and chase paper receipts and email  
 threads to get reimbursed. Managers approve claims manually with no single view  
 of what is pending, and finance re-keys approved amounts into payroll by hand,  
-which is slow and error-prone. 
+which is slow and error-prone.  
 
 ## Solution
 
