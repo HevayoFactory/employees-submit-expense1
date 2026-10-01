@@ -7,11 +7,48 @@
   "appPath": "receipt-agent",
   "entrypoint": "deployment/ai-agent",
   "exposure": "internet",
-  "dependencies": [
-    { "kind": "platform-resource", "name": "receipt-agent-db", "resourceType": "postgres-cnpg", "description": "Its own conversation store; holds no claim or employee data." },
-    { "kind": "platform-resource", "name": "user-auth", "resourceType": "thunder-app", "description": "Gates every turn on the signed-in employee uploading the receipt." }
+  "stories": [
+    "F1.3"
   ],
   "description": "Reads an uploaded receipt image or PDF and extracts the line item's amount, date, merchant and category for the employee to confirm or edit. Calls no other component and stores no business data — only its own conversation turns.",
-  "stories": ["F1.3"],
-  "skillsPinned": ["agent-building"]
+  "dependencies": [
+    {
+      "kind": "platform-resource",
+      "name": "receipt-agent-db",
+      "description": "Its own conversation store; holds no claim or employee data.",
+      "resourceType": "postgres-cnpg",
+      "wiring": {
+        "ref": "employees-submit-c5d9f4fa",
+        "envBindings": {
+          "dbname": "RECEIPT_AGENT_DB_DBNAME",
+          "host": "RECEIPT_AGENT_DB_HOST",
+          "password": "RECEIPT_AGENT_DB_PASSWORD",
+          "port": "RECEIPT_AGENT_DB_PORT",
+          "user": "RECEIPT_AGENT_DB_USER"
+        }
+      }
+    },
+    {
+      "kind": "platform-resource",
+      "name": "user-auth",
+      "description": "Gates every turn on the signed-in employee uploading the receipt.",
+      "resourceType": "thunder-app",
+      "wiring": {
+        "ref": "employees-submit-fe4a993d",
+        "envBindings": {
+          "client_id": "USER_AUTH_CLIENT_ID",
+          "issuer": "USER_AUTH_ISSUER",
+          "jwks_url": "USER_AUTH_JWKS_URL",
+          "resource": "USER_AUTH_RESOURCE",
+          "scopes": "USER_AUTH_SCOPES"
+        }
+      }
+    }
+  ],
+  "exposesAPI": {
+    "auth": "end-user-required"
+  },
+  "skillsPinned": [
+    "agent-building"
+  ]
 }
